@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fake News Detector</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+      body {
+        background: radial-gradient(circle at top left, #6366f1 0%, #8b5cf6 100%);
+        min-height: 100vh;
+      }
+      .main-card {
+        border-radius: 1rem;
+        box-shadow: 0 0 24px rgba(99,102,241,0.14);
+        background: rgba(255,255,255,0.95);
+      }
+      .navbar {
+        box-shadow: 0px 2px 12px rgba(0, 2, 108, 0.759);
+      }
+      .progress-bar strong {
+        font-size: 1.05rem;
+      }
+    </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-5">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+        <i class="bi bi-shield-check"></i> Fake News Detector
+      </a>
+      <a class="btn btn-light fw-semibold shadow-sm ms-2" href="{% url 'stats' %}">
+        <i class="bi bi-bar-chart-line"></i> Model Stats
+      </a>
+    </div>
+  </nav>
+  <main class="container">{% block content %}{% endblock %}</main>
+</body>
+</html>

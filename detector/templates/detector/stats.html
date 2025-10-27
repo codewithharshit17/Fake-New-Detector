@@ -1,0 +1,16 @@
+{% extends 'detector/base.html' %}
+{% block content %}
+  <h3 class="mb-4">Model Training Statistics</h3>
+  <div class="row">
+    {% for plot in plots %}
+    <div class="col-md-6 mb-4">
+        <div class="card shadow">
+          <img src="/media/plots/{{ plot }}" class="card-img-top" alt="{{ plot }}">
+          <div class="card-body">
+            <p class="card-text text-center">{{ plot }}</p>
+          </div>
+        </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}

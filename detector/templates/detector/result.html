@@ -1,0 +1,272 @@
+{% extends 'detector/base.html' %}
+{% block content %}
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-xl-10 col-lg-11">
+      
+      <!-- Header with gradient background -->
+      <div class="text-center mb-5 p-4 rounded-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;box-shadow: #00f2fe;">
+        <h2 class="fw-bold mb-2">🔍 Analysis Results</h2>
+        <p class="mb-0 opacity-75">AI-powered fake news detection with comprehensive insights</p>
+      </div>
+
+      <!-- 1. Advanced Stat Cards with animations -->
+      <div class="row g-4 mb-5">
+        <div class="col-md-3 col-sm-6">
+          <div class="card border-0 shadow-lg h-100 hover-card">
+            <div class="card-body text-center p-4">
+              <div class="text-primary mb-2">
+                <i class="fas fa-bullseye" style="font-size: 2rem;"></i>
+              </div>
+              <h6 class="fw-bold text-muted mb-2">Model Accuracy</h6>
+              <div class="display-5 fw-bold" style="color:#6366f1;">{{ model_stats.accuracy|floatformat:2 }}%</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="card border-0 shadow-lg h-100 hover-card">
+            <div class="card-body text-center p-4">
+              <div class="text-success mb-2">
+                <i class="fas fa-check-circle" style="font-size: 2rem;"></i>
+              </div>
+              <h6 class="fw-bold text-muted mb-2">Real Precision</h6>
+              <div class="display-5 fw-bold" style="color:#4ade80;">{{ model_stats.real_precision|floatformat:2 }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="card border-0 shadow-lg h-100 hover-card">
+            <div class="card-body text-center p-4">
+              <div class="text-danger mb-2">
+                <i class="fas fa-exclamation-triangle" style="font-size: 2rem;"></i>
+              </div>
+              <h6 class="fw-bold text-muted mb-2">Fake Precision</h6>
+              <div class="display-5 fw-bold" style="color:#ef4444;">{{ model_stats.fake_precision|floatformat:2 }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="card border-0 shadow-lg h-100 hover-card">
+            <div class="card-body text-center p-4">
+              <div class="text-info mb-2">
+                <i class="fas fa-database" style="font-size: 2rem;"></i>
+              </div>
+              <h6 class="fw-bold text-muted mb-2">Training Size</h6>
+              <div class="display-5 fw-bold text-dark">{{ model_stats.train_size }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Training Set Distribution with modern styling -->
+      <div class="card border-0 shadow-lg mb-5">
+        <div class="card-header bg-gradient text-white" style="background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);">
+          <h5 class="mb-0 fw-bold">📊 Training Set Distribution</h5>
+        </div>
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="badge bg-success fs-6 px-3 py-2">✓ REAL: {{ model_stats.real_count|default:"0" }}</span>
+            <span class="badge bg-danger fs-6 px-3 py-2">✗ FAKE: {{ model_stats.fake_count|default:"0" }}</span>
+          </div>
+          <div class="progress" style="height: 40px; border-radius: 20px;">
+            {% widthratio model_stats.real_count model_stats.train_size 100 as real_percent %}
+            {% widthratio model_stats.fake_count model_stats.train_size 100 as fake_percent %}
+            <div class="progress-bar bg-success progress-bar-animated" role="progressbar"
+                 style="width: {{ real_percent }}%; border-radius: 20px;"
+                 aria-valuenow="{{ real_percent }}" aria-valuemin="0" aria-valuemax="100">
+              <strong>REAL {{ real_percent }}%</strong>
+            </div>
+            <div class="progress-bar bg-danger progress-bar-animated" role="progressbar"
+                 style="width: {{ fake_percent }}%;"
+                 aria-valuenow="{{ fake_percent }}" aria-valuemin="0" aria-valuemax="100">
+              <strong>FAKE {{ fake_percent }}%</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Enhanced Metrics Display -->
+      <div class="card border-0 shadow-lg mb-5">
+        <div class="card-header bg-gradient text-white" style="background: linear-gradient(90deg, #fa709a 0%, #fee140 100%);">
+          <h5 class="mb-0 fw-bold">📈 Model Performance Metrics</h5>
+        </div>
+        <div class="card-body p-4">
+          <div class="row g-4">
+            <div class="col-md-4">
+              <div class="text-center p-3 rounded-3" style="background: linear-gradient(135deg, #667eea20, #764ba220);">
+                <h6 class="fw-bold mb-2">Precision</h6>
+                <div class="d-flex justify-content-center gap-3">
+                  <span class="badge bg-primary p-2">Real: {{ model_stats.real_precision|floatformat:2 }}</span>
+                  <span class="badge bg-danger p-2">Fake: {{ model_stats.fake_precision|floatformat:2 }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="text-center p-3 rounded-3" style="background: linear-gradient(135deg, #667eea20, #764ba220);">
+                <h6 class="fw-bold mb-2">Recall</h6>
+                <div class="d-flex justify-content-center gap-3">
+                  <span class="badge bg-info p-2">Real: {{ model_stats.real_recall|floatformat:2 }}</span>
+                  <span class="badge bg-warning p-2">Fake: {{ model_stats.fake_recall|floatformat:2 }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="text-center p-3 rounded-3" style="background: linear-gradient(135deg, #667eea20, #764ba220);">
+                <h6 class="fw-bold mb-2">F1-Score</h6>
+                <div class="d-flex justify-content-center gap-3">
+                  <span class="badge bg-success p-2">Real: {{ model_stats.real_f1|floatformat:2 }}</span>
+                  <span class="badge bg-secondary p-2">Fake: {{ model_stats.fake_f1|floatformat:2 }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Prediction Confidence with enhanced styling -->
+      <div class="card border-0 shadow-lg mb-5">
+        <div class="card-header bg-gradient text-white" style="background: linear-gradient(90deg, #a8edea 0%, #fed6e3 100%); color: #333 !important;">
+          <h5 class="mb-0 fw-bold text-dark">🎯 Prediction Confidence</h5>
+        </div>
+        <div class="card-body p-4">
+          <div class="text-center mb-3">
+            <span class="badge fs-4 px-4 py-3 
+                {% if confidence >= 70 %}bg-success
+                {% elif confidence >= 40 %}bg-warning
+                {% else %}bg-danger{% endif %}">
+              {{ confidence|floatformat:1|default:"0.0" }}% Confidence
+            </span>
+          </div>
+          <div class="progress mb-3" style="height: 30px; border-radius: 15px;">
+            <div class="progress-bar progress-bar-striped progress-bar-animated
+                {% if confidence >= 70 %} bg-success
+                {% elif confidence >= 40 %} bg-warning
+                {% else %} bg-danger{% endif %}"
+                role="progressbar" style="width: {{ confidence|default:"0" }}%; border-radius: 15px;"
+                aria-valuenow="{{ confidence|default:"0" }}" aria-valuemin="0" aria-valuemax="100">
+                <strong>{{ confidence|floatformat:1|default:"0.0" }}%</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Session Stats -->
+      <div class="card border-0 shadow-lg mb-5">
+        <div class="card-header bg-gradient text-white" style="background: linear-gradient(90deg, #ffecd2 0%, #fcb69f 100%); color: #333 !important;">
+          <h5 class="mb-0 fw-bold text-dark">📋 This Session Summary</h5>
+        </div>
+        <div class="card-body p-4">
+          {% with total=session_real_count|add:session_fake_count %}
+          {% if total > 0 %}
+            <div class="d-flex justify-content-center gap-4 mb-3">
+              <span class="badge bg-success fs-5 px-3 py-2">✓ Real Detected: {{ session_real_count }}</span>
+              <span class="badge bg-danger fs-5 px-3 py-2">✗ Fake Detected: {{ session_fake_count }}</span>
+            </div>
+            {% widthratio session_real_count total 100 as session_real_percent %}
+            {% widthratio session_fake_count total 100 as session_fake_percent %}
+            <div class="progress" style="height: 35px; border-radius: 17px;">
+              <div class="progress-bar bg-success progress-bar-animated" role="progressbar"
+                   style="width: {{ session_real_percent }}%; border-radius: 17px;"
+                   aria-valuenow="{{ session_real_percent }}" aria-valuemin="0" aria-valuemax="100">
+                REAL: {{ session_real_count }} ({{ session_real_percent }}%)
+              </div>
+              <div class="progress-bar bg-danger progress-bar-animated" role="progressbar"
+                   style="width: {{ session_fake_percent }}%;"
+                   aria-valuenow="{{ session_fake_percent }}" aria-valuemin="0" aria-valuemax="100">
+                FAKE: {{ session_fake_count }} ({{ session_fake_percent }}%)
+              </div>
+            </div>
+          {% else %}
+            <div class="text-center text-muted">
+              <i class="fas fa-chart-line fa-3x mb-3 opacity-50"></i>
+              <p>No predictions made this session yet.</p>
+            </div>
+          {% endif %}
+          {% endwith %}
+        </div>
+      </div>
+
+      <!-- 6. Main Prediction Result with enhanced styling -->
+      <div class="card border-0 shadow-xl mb-5">
+        <div class="card-body p-5 text-center">
+          <div class="alert border-0 shadow-sm {% if 'FAKE' in result %}alert-danger{% else %}alert-success{% endif %}" 
+               style="border-radius: 20px;">
+            <div class="display-4 mb-3">
+              {% if 'FAKE' in result %}
+                ⚠️
+              {% else %}
+                ✅
+              {% endif %}
+            </div>
+            <h2 class="fw-bold mb-2">{{ result }}</h2>
+            <p class="fs-5 fw-bold mb-0">Confidence: {{ confidence|floatformat:2 }}%</p>
+          </div>
+          
+          <!-- Input Details with modern cards -->
+          <div class="row g-3 mt-4">
+            <div class="col-md-6">
+              <div class="card border-0" style="background: linear-gradient(135deg, #667eea10, #764ba210);">
+                <div class="card-body text-center p-3">
+                  <h6 class="fw-bold text-muted mb-1">Input Length</h6>
+                  <div class="fs-5 fw-bold text-primary">{{ input_words }} words</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card border-0" style="background: linear-gradient(135deg, #667eea10, #764ba210);">
+                <div class="card-body text-center p-3">
+                  <h6 class="fw-bold text-muted mb-1">Analysis Time</h6>
+                  <div class="fs-5 fw-bold text-success">{{ prediction_time }}s</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Analyzed Text -->
+          <div class="mt-4">
+            <h6 class="fw-bold text-muted mb-3">📰 Analyzed Content:</h6>
+            <div class="p-4 rounded-3" style="background: linear-gradient(135deg, #f8f9ff, #e6f3ff); border-left: 4px solid #6366f1;">
+              <p class="mb-0 text-start">{{ news_text }}</p>
+            </div>
+          </div>
+          
+          <!-- Action Button -->
+          <div class="mt-5">
+            <a class="btn btn-lg px-5 py-3 fw-bold shadow-lg" 
+               style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; border-radius: 50px; color: white;"
+               href="{% url 'home' %}">
+              🔍 Analyze Another Article
+            </a>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<!-- Add Font Awesome and custom styles -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+  .hover-card {
+    transition: all 0.3s ease;
+  }
+  .hover-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
+  }
+  .progress-bar-animated {
+    animation: progress-bar-stripes 2s linear infinite;
+  }
+  @keyframes progress-bar-stripes {
+    0% { background-position: 40px 0; }
+    100% { background-position: 0 0; }
+  }
+  .card {
+    border-radius: 15px !important;
+  }
+  .shadow-xl {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+  }
+</style>
+{% endblock %}

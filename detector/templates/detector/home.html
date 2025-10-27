@@ -1,0 +1,13 @@
+{% extends 'detector/base.html' %}
+{% block content %}
+<div class="main-card p-4 mx-auto" style="max-width:700px;">
+  <h2 style ="text-align: center;text-decoration: solid;font-style: oblique;">Check Fake News !</h2>
+  <form method="POST" action="{% url 'detect' %}">
+    {% csrf_token %}
+    <div class="mb-3">
+      <textarea name="news_text" class="form-control" rows="5" required placeholder="Paste news article or headline here"></textarea>
+    </div>
+    <button class="btn btn-primary btn-lg">Analyze</button>
+  </form>
+</div>
+{% endblock %}
