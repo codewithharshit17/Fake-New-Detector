@@ -86,17 +86,6 @@ python manage.py runserver
 
 ---
 
-## 🌐 **Connect With The Project**
-
-<p align="center">
-<a href="https://github.com/codewithharshit17/Fake-New-Detector"><img src="https://img.shields.io/github/stars/codewithharshit17/Fake-New-Detector?style=social" alt="GitHub"></a>
-<a href="https://github.com/codewithharshit17/Fake-New-Detector/fork"><img src="https://img.shields.io/github/forks/codewithharshit17/Fake-New-Detector?style=social" alt="Fork"></a>
-<a href="https://github.com/codewithharshit17/Fake-New-Detector/issues"><img src="https://img.shields.io/github/issues/codewithharshit17/Fake-New-Detector" alt="Issues"></a>
-<a href="https://github.com/codewithharshit17/Fake-New-Detector/blob/main/LICENSE"><img src="https://img.shields.io/github/license/codewithharshit17/Fake-New-Detector" alt="License"></a>
-</p>
-
----
-
 ## 🔧 **Languages and Tools Used:**
 
 <p align="center">
